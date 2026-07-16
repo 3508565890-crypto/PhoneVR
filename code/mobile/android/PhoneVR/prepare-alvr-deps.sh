@@ -39,7 +39,7 @@ chmod +x "${CARB_REPO_NAME}/gradlew"
 
 # Build sdk
 pushd "${CARB_REPO_NAME}"
-./gradlew :sdk:assembleRelease -Parm64-v8a || exit 1
+./gradlew :sdk:assembleRelease -Parm64-v8a --stacktrace --info --no-daemon || exit 1
 test -f sdk/build/outputs/aar/sdk-release.aar || {
     echo "ERROR: Cardboard SDK AAR was not generated"
     exit 1
