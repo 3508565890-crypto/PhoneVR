@@ -33,9 +33,16 @@ curl -sLS "https://github.com/nift4/cardboard/archive/refs/heads/master.zip" > d
 unzip download.zip
 rm download.zip
 
+printf "include ':sdk'\n" > "${CARB_REPO_NAME}/settings.gradle"
+chmod +x "${CARB_REPO_NAME}/gradlew"
+
 # Build sdk
 pushd "${CARB_REPO_NAME}"
-./gradlew sdk:assembleRelease -Parm64-v8a
+./gradlew :sdk:assembleRelease -Parm64-v8a || exit 1
+test -f sdk/build/outputs/aar/sdk-release.aar || {
+    echo "ERROR: Cardboard SDK AAR was not generated"
+    exit 1
+}
 popd
 
 # Prepare files
