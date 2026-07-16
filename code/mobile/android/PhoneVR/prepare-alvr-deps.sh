@@ -20,6 +20,7 @@ rustup target add \
 
 pushd ALVR
 cargo update
+ALVR_SKIP_ANDROID_OPENXR_LOADERS=1 \
 cargo xtask prepare-deps --platform android $@
 popd
 
