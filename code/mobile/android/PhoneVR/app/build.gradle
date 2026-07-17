@@ -4,6 +4,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+
+// Disable Google Services tasks for diagnostic debug builds
+if (isDiagnostic) {
+    tasks.withType(com.google.gms.googleservices.GoogleServicesTask) {
+        enabled = false
+    }
+}
 apply from: '../versioning.gradle'
 apply plugin: "com.diffplug.spotless"
 
@@ -14,6 +21,8 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 def defaultALVRFlavour = "--release"
 
 android {
+    def isDiagnostic = project.hasProperty('diagnosticPackage') && project.property('diagnosticPackage').toBoolean()
+
     signingConfigs {
         releaseconfig {
             if( System.getenv('GITHUB_EVENT_NAME') == 'pull_request' || System.getenv("Store") == null || System.getenv("Key") == null ) {
@@ -56,6 +65,13 @@ android {
         defaultPublishConfig 'release'
         publishNonDefault true
         archivesBaseName = "PhoneVR-v$versionName"
+    }
+    // Diagnostic package suffix for debug builds
+    if (isDiagnostic) {
+        debug {
+            applicationIdSuffix ".diag"
+            versionNameSuffix "-diag"
+        }
     }
     buildTypes {
         release {
