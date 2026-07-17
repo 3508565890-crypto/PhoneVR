@@ -5,6 +5,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
+def isDiagnostic = project.hasProperty('diagnosticPackage') && project.property('diagnosticPackage').toBoolean()
+
 // Disable Google Services tasks for diagnostic debug builds
 if (isDiagnostic) {
     tasks.withType(com.google.gms.googleservices.GoogleServicesTask) {
@@ -21,7 +23,6 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 def defaultALVRFlavour = "--release"
 
 android {
-    def isDiagnostic = project.hasProperty('diagnosticPackage') && project.property('diagnosticPackage').toBoolean()
 
     signingConfigs {
         releaseconfig {
