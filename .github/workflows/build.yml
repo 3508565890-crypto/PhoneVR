@@ -192,7 +192,7 @@ jobs:
       - name: Build apk gvr debug project (APK)
         run:  |
           cd code/mobile/android/PhoneVR
-          ./gradlew :${{ env.MAIN_PROJECT_MODULE }}:assembleGvrDebug --warning-mode=all --stacktrace -Dorg.gradle.java.home=${{env.JAVA_HOME}}
+          ./gradlew :${{ env.MAIN_PROJECT_MODULE }}:assembleGvrDebug --warning-mode=all --stacktrace -Dorg.gradle.java.home=${{env.JAVA_HOME}} -PdiagnosticPackage=true
 
       # Create APK Release
       - name: Build apk gvr release project (APK)
