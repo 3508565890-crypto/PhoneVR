@@ -67,13 +67,6 @@ android {
         publishNonDefault true
         archivesBaseName = "PhoneVR-v$versionName"
     }
-    // Diagnostic package suffix for debug builds
-    if (isDiagnostic) {
-        debug {
-            applicationIdSuffix ".diag"
-            versionNameSuffix "-diag"
-        }
-    }
     buildTypes {
         release {
             minifyEnabled false
@@ -92,6 +85,10 @@ android {
                 }
             }
             defaultALVRFlavour = ""
+            if (isDiagnostic) {
+                applicationIdSuffix ".diag"
+                versionNameSuffix "-diag"
+            }
         }
     }
     buildFeatures {
